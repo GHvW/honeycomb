@@ -1,13 +1,13 @@
-namespace Honeycomb.Core.Parsers
-{
+using System;
 
-    public record Bind<A, B>(Func<A, IParser<B>> fn, IParser<A> parser) : IParser<B>
-    {
+namespace Honeycomb.Core.Parsers {
+
+    public record Bind<A, B>(Func<A, IParser<B>> Fn, IParser<A> Parser) : IParser<B> {
+
         public (B, ArraySegment<byte>)? Parse(ArraySegment<byte> input) =>
-            parser.Parse(input) switch
-            {
+            this.Parser.Parse(input) switch {
                 null => null,
-                (var data, var rest) => fn(data).Parse(rest)
+                (var data, var rest) => this.Fn(data).Parse(rest)
             };
     }
 }
