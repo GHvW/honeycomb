@@ -61,5 +61,41 @@ namespace Honeycomb.Core.Tests.PrimitiveParserTests {
             result.Value.Item2.Count.Should().Be(2);
             result.Value.Item2[0].Should().Be(9);
         }
+
+        [Fact]
+        public void WhenParsingToALittleEndianDouble() {
+            var result = new LittleDouble().Parse(this.buffer);
+
+            result.Should().NotBeNull();
+
+            var actual = BitConverter.GetBytes(result.Value.Item1);
+
+            actual[0].Should().Be(1);
+            actual[1].Should().Be(2);
+            actual[2].Should().Be(3);
+            actual[3].Should().Be(4);
+            actual[4].Should().Be(5);
+            actual[5].Should().Be(6);
+            actual[6].Should().Be(7);
+            actual[7].Should().Be(8);
+        }
+
+        [Fact]
+        public void WhenParsingToABigEndianDouble() {
+            var result = new BigDouble().Parse(this.buffer);
+
+            result.Should().NotBeNull();
+
+            var actual = BitConverter.GetBytes(result.Value.Item1);
+
+            actual[0].Should().Be(8);
+            actual[1].Should().Be(7);
+            actual[2].Should().Be(6);
+            actual[3].Should().Be(5);
+            actual[4].Should().Be(4);
+            actual[5].Should().Be(3);
+            actual[6].Should().Be(2);
+            actual[7].Should().Be(1);
+        }
     }
 }
