@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Honeycomb.Core.Parsers {
 
-    public class Take<A> : IParser<IList<A>> {
+    public class Take<A> : IParser<IReadOnlyCollection<A>> {
 
         private readonly IParser<A> parser;
         private readonly int count;
@@ -16,8 +16,8 @@ namespace Honeycomb.Core.Parsers {
             this.count = count;
         }
 
-        public (IList<A>, ArraySegment<byte>)? Parse(ArraySegment<byte> input) {
-            var data = new List<A>();
+        public (IReadOnlyCollection<A>, ArraySegment<byte>)? Parse(ArraySegment<byte> input) {
+            var data = new List<A>(this.count);
             var bytes = input;
 
             foreach (var _ in Enumerable.Range(0, this.count)) {
