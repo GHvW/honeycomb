@@ -1,6 +1,7 @@
 using Honeycomb.Core.Parsers;
 
 using System;
+using System.Collections.Generic;
 
 namespace Honeycomb.Core {
 
@@ -20,5 +21,8 @@ namespace Honeycomb.Core {
 
         public static IParser<(A, B)> And<A, B>(this IParser<A> @this, IParser<B> other) =>
             new And<A, B>(@this, other);
+
+        public static IParser<IReadOnlyCollection<A>> Take<A>(this IParser<A> @this, int count) =>
+            new Take<A>(@this, count);
     }
 }
