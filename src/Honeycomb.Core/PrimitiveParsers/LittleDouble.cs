@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Honeycomb.Core.PrimitiveParsers {
 
-    public record LittleDouble() : IParser<double> {
+    public class LittleDouble : IParser<double> {
 
         public (double, ArraySegment<byte>)? Parse(ArraySegment<byte> input) =>
             new DoubleBytes()

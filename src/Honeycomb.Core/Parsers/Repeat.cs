@@ -6,17 +6,19 @@ using System.Threading.Tasks;
 
 namespace Honeycomb.Core.Parsers {
 
-    public class Take<A> : IParser<IReadOnlyCollection<A>> {
+    public class Repeat<A> : IParser<IReadOnlyCollection<A>> {
 
         private readonly IParser<A> parser;
         private readonly int count;
 
-        public Take(IParser<A> parser, int count) {
+        public Repeat(IParser<A> parser, int count) {
             this.parser = parser;
             this.count = count;
         }
 
-        public (IReadOnlyCollection<A>, ArraySegment<byte>)? Parse(ArraySegment<byte> input) {
+        public (IReadOnlyCollection<A>, ArraySegment<byte>)? Parse(
+            ArraySegment<byte> input
+        ) {
             var data = new List<A>(this.count);
             var bytes = input;
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Honeycomb.Core.PrimitiveParsers {
 
-    public record Octet() : IParser<byte> {
+    public class Octet : IParser<byte> {
 
         public (byte, ArraySegment<byte>)? Parse(ArraySegment<byte> input) {
             try {

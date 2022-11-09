@@ -7,9 +7,11 @@ using System.Threading.Tasks;
 
 namespace Honeycomb.Core.PrimitiveParsers {
 
-    public record BigShort() : IParser<short> {
+    public class BigShort : IParser<short> {
 
-        public (short, ArraySegment<byte>)? Parse(ArraySegment<byte> input) =>
+        public (short, ArraySegment<byte>)? Parse(
+            ArraySegment<byte> input
+        ) =>
             new ShortBytes()
                 .Select(bytes => BinaryPrimitives.ReadInt16BigEndian(bytes)) // need surrounding lambda to get implicit conversion
                 .Parse(input);

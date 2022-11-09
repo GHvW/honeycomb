@@ -2,12 +2,22 @@ using System;
 
 namespace Honeycomb.Core.Parsers {
 
-    public record Map<A, B>(Func<A, B> Fn, IParser<A> Parser) : IParser<B> {
+    public class Map<A, B> : IParser<B> {
 
-        public (B, ArraySegment<byte>)? Parse(ArraySegment<byte> input) =>
-            this.Parser.Parse(input) switch {
+        private readonly Func<A, B> fn;
+        private readonly IParser<A> parser;
+
+        public Map(Func<A, B> fn, IParser<A> parser) {
+            this.parser = parser;
+            this.fn = fn;
+        }
+
+        public (B, ArraySegment<byte>)? Parse(
+            ArraySegment<byte> input
+        ) =>
+            this.parser.Parse(input) switch {
                 null => null,
-                (var data, var rest) => (this.Fn(data), rest)
+                (var data, var rest) => (this.fn(data), rest)
             };
     }
 }

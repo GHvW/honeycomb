@@ -6,11 +6,17 @@ using System.Threading.Tasks;
 
 namespace Honeycomb.Core.PrimitiveParsers;
 
-public record NBytes(int Number) : IParser<ArraySegment<byte>> {
+public class NBytes : IParser<ArraySegment<byte>> {
+
+    private readonly int number;
+
+    public NBytes(int number) {
+        this.number = number;
+    }
 
     public (ArraySegment<byte>, ArraySegment<byte>)? Parse(ArraySegment<byte> input) {
         try {
-            return (input.Slice(0, this.Number), input.Slice(this.Number));
+            return (input.Slice(0, this.number), input.Slice(this.number));
         } catch {
             return null;
         }

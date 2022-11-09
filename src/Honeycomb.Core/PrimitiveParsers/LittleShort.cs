@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Honeycomb.Core.PrimitiveParsers {
 
-    public record LittleShort() : IParser<short> {
+    public class LittleShort : IParser<short> {
 
         public (short, ArraySegment<byte>)? Parse(ArraySegment<byte> input) =>
             new ShortBytes()

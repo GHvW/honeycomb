@@ -2,14 +2,30 @@ using System;
 
 namespace Honeycomb.Core.Parsers {
 
-    public record BindWithSelector<A, B, C>(Func<A, IParser<B>> Fn, Func<A, B, C> Selector, IParser<A> Parser) : IParser<C> {
+    public class BindWithSelector<A, B, C> : IParser<C> {
 
-        public (C, ArraySegment<byte>)? Parse(ArraySegment<byte> input) =>
-            this.Parser.Parse(input) switch {
+        private readonly Func<A, IParser<B>> fn;
+        private readonly Func<A, B, C> selector;
+        private readonly IParser<A> parser;
+
+        public BindWithSelector(
+            Func<A, IParser<B>> fn,
+            Func<A, B, C> selector,
+            IParser<A> parser
+        ) {
+            this.parser = parser;
+            this.selector = selector;
+            this.fn = fn;
+        }
+
+        public (C, ArraySegment<byte>)? Parse(
+            ArraySegment<byte> input
+        ) =>
+            this.parser.Parse(input) switch {
                 null => null,
-                (var a, var rest) => this.Fn(a).Parse(rest) switch {
+                (var a, var rest) => this.fn(a).Parse(rest) switch {
                     null => null,
-                    (var b, var leftover) => (this.Selector(a, b), leftover)
+                    (var b, var leftover) => (this.selector(a, b), leftover)
                 }
             };
     }

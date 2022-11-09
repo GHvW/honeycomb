@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Honeycomb.Core.PrimitiveParsers;
 
-public record LittleFloat() : IParser<float> {
+public class LittleFloat : IParser<float> {
 
     public (float, ArraySegment<byte>)? Parse(ArraySegment<byte> input) =>
         new IntBytes()

@@ -2,11 +2,21 @@ using System;
 
 namespace Honeycomb.Core.Parsers {
 
-    public record And<A, B>(IParser<A> First, IParser<B> Second) : IParser<(A, B)> {
+    public class And<A, B> : IParser<(A, B)> {
 
-        public ((A, B), ArraySegment<byte>)? Parse(ArraySegment<byte> input) =>
-            (from a in this.First
-             from b in this.Second
+        private readonly IParser<A> first;
+        private readonly IParser<B> second;
+
+        public And(IParser<A> first, IParser<B> second) {
+            this.first = first;
+            this.second = second;
+        }
+
+        public ((A, B), ArraySegment<byte>)? Parse(
+            ArraySegment<byte> input
+        ) =>
+            (from a in this.first
+             from b in this.second
              select (a, b))
             .Parse(input);
     }

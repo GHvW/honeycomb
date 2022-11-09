@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Honeycomb.Core.PrimitiveParsers {
 
-    public record LittleInt() : IParser<int> {
+    public class LittleInt : IParser<int> {
 
         public (int, ArraySegment<byte>)? Parse(ArraySegment<byte> input) =>
             new IntBytes()

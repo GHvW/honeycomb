@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Honeycomb.Core.PrimitiveParsers {
 
-    public record BigInt() : IParser<int> {
+    public class BigInt : IParser<int> {
 
         public (int, ArraySegment<byte>)? Parse(ArraySegment<byte> input) =>
             new IntBytes()
