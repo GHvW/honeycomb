@@ -22,7 +22,7 @@ namespace Honeycomb.Core {
         public static IParser<(A, B)> And<A, B>(this IParser<A> @this, IParser<B> other) =>
             new And<A, B>(@this, other);
 
-        public static IParser<IReadOnlyCollection<A>> Take<A>(this IParser<A> @this, int count) =>
+        public static IParser<IReadOnlyCollection<A>> Repeat<A>(this IParser<A> @this, int count) =>
             new Repeat<A>(@this, count);
     }
 }
