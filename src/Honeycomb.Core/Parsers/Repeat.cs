@@ -9,20 +9,20 @@ namespace Honeycomb.Core.Parsers {
     public class Repeat<A> : IParser<IReadOnlyCollection<A>> {
 
         private readonly IParser<A> parser;
-        private readonly int count;
+        private readonly int times;
 
-        public Repeat(IParser<A> parser, int count) {
+        public Repeat(IParser<A> parser, int times) {
             this.parser = parser;
-            this.count = count;
+            this.times = times;
         }
 
         public (IReadOnlyCollection<A>, ArraySegment<byte>)? Parse(
             ArraySegment<byte> input
         ) {
-            var data = new List<A>(this.count);
+            var data = new List<A>(this.times);
             var bytes = input;
 
-            foreach (var _ in Enumerable.Range(0, this.count)) {
+            foreach (var _ in Enumerable.Range(0, this.times)) {
                 var result = this.parser.Parse(bytes);
                 if (result == null) {
                     return null;
