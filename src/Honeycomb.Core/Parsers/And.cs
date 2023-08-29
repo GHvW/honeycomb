@@ -12,8 +12,8 @@ namespace Honeycomb.Core.Parsers {
             this.second = second;
         }
 
-        public ((A, B), ArraySegment<byte>)? Parse(
-            ArraySegment<byte> input
+        public ((A, B), ReadOnlyMemory<byte>)? Parse(
+            ReadOnlyMemory<byte> input
         ) =>
             (from a in this.first
              from b in this.second

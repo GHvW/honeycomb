@@ -16,8 +16,8 @@ namespace Honeycomb.Core.Parsers {
             this.times = times;
         }
 
-        public (IReadOnlyCollection<A>, ArraySegment<byte>)? Parse(
-            ArraySegment<byte> input
+        public (IReadOnlyCollection<A>, ReadOnlyMemory<byte>)? Parse(
+            ReadOnlyMemory<byte> input
         ) {
             var data = new List<A>(this.times);
             var bytes = input;

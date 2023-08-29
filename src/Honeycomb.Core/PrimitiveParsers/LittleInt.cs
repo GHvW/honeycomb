@@ -9,9 +9,11 @@ namespace Honeycomb.Core.PrimitiveParsers {
 
     public class LittleInt : IParser<int> {
 
-        public (int, ArraySegment<byte>)? Parse(ArraySegment<byte> input) =>
+        public (int, ReadOnlyMemory<byte>)? Parse(
+            ReadOnlyMemory<byte> input
+        ) =>
             new IntBytes()
-                .Select(bytes => BinaryPrimitives.ReadInt32LittleEndian(bytes)) // need surrounding lambda to get implicit conversion
+                .Select(bytes => BinaryPrimitives.ReadInt32LittleEndian(bytes.Span)) // need surrounding lambda to get implicit conversion
                 .Parse(input);
     }
 }

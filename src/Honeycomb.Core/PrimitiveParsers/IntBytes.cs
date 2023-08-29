@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace Honeycomb.Core.PrimitiveParsers {
 
-    public class IntBytes : IParser<ArraySegment<byte>> {
+    public class IntBytes : IParser<ReadOnlyMemory<byte>> {
 
-        public (ArraySegment<byte>, ArraySegment<byte>)? Parse(ArraySegment<byte> input) {
+        public (ReadOnlyMemory<byte>, ReadOnlyMemory<byte>)? Parse(
+            ReadOnlyMemory<byte> input
+        ) {
             try {
                 return (input.Slice(0, 4), input.Slice(4));
             } catch {
