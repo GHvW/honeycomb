@@ -30,8 +30,8 @@ namespace Honeycomb.Core.Tests.PrimitiveParserTests {
 
             result.Value.Item1.Should().Be(1);
 
-            result.Value.Item2.Count.Should().Be(9);
-            result.Value.Item2[0].Should().Be(2);
+            result.Value.Item2.Length.Should().Be(9);
+            result.Value.Item2.Span[0].Should().Be(2);
         }
 
         [Fact]
@@ -41,11 +41,11 @@ namespace Honeycomb.Core.Tests.PrimitiveParserTests {
 
             result.Should().NotBeNull();
 
-            result.Value.Item1.Count.Should().Be(4);
-            result.Value.Item1[0].Should().Be(1);
+            result.Value.Item1.Length.Should().Be(4);
+            result.Value.Item1.Span[0].Should().Be(1);
 
-            result.Value.Item2.Count.Should().Be(6);
-            result.Value.Item2[0].Should().Be(5);
+            result.Value.Item2.Length.Should().Be(6);
+            result.Value.Item2.Span[0].Should().Be(5);
         }
 
         [Fact]
@@ -55,11 +55,11 @@ namespace Honeycomb.Core.Tests.PrimitiveParserTests {
 
             result.Should().NotBeNull();
 
-            result.Value.Item1.Count.Should().Be(8);
-            result.Value.Item1[0].Should().Be(1);
+            result.Value.Item1.Length.Should().Be(8);
+            result.Value.Item1.Span[0].Should().Be(1);
 
-            result.Value.Item2.Count.Should().Be(2);
-            result.Value.Item2[0].Should().Be(9);
+            result.Value.Item2.Length.Should().Be(2);
+            result.Value.Item2.Span[0].Should().Be(9);
         }
 
         [Fact]

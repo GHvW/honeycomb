@@ -5,7 +5,7 @@ using System.Collections.ObjectModel;
 
 namespace Honeycomb.Core.Parsers {
 
-    public class Many<A> : IParser<ReadOnlyCollection<A>> {
+    public class Many<A> : IParser<IReadOnlyCollection<A>> {
 
         private readonly IParser<A> parser;
 
@@ -13,10 +13,20 @@ namespace Honeycomb.Core.Parsers {
             this.parser = parser;
         }
 
-        public (ImmutableList<A>, ReadOnlyCollection<byte>)? Parse(
-            ReadOnlyCollection<byte> input
+        public (IReadOnlyCollection<A>, ReadOnlyMemory<byte>)? Parse(
+            ReadOnlyMemory<byte> input
         ) {
-            
+            var result = new List<A>();
+            var rest = input;
+            var parsed = this.parser.Parse(rest);
+            while (parsed is not null) {
+                var (item, leftover) = parsed.Value;
+                result.Add(item);
+                rest = leftover;
+                parsed = this.parser.Parse(rest);
+            }
+
+            return (result, rest);
         }
     }
 }
