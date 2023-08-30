@@ -28,10 +28,10 @@ namespace Honeycomb.Core.Tests.PrimitiveParserTests {
 
             result.Should().NotBeNull();
 
-            result.Value.Item1.Should().Be(1);
+            result!.Value.Item1.Should().Be(1);
 
-            result.Value.Item2.Length.Should().Be(9);
-            result.Value.Item2.Span[0].Should().Be(2);
+            result!.Value.Item2.Length.Should().Be(9);
+            result!.Value.Item2.Span[0].Should().Be(2);
         }
 
         [Fact]
@@ -41,11 +41,11 @@ namespace Honeycomb.Core.Tests.PrimitiveParserTests {
 
             result.Should().NotBeNull();
 
-            result.Value.Item1.Length.Should().Be(4);
-            result.Value.Item1.Span[0].Should().Be(1);
+            result!.Value.Item1.Length.Should().Be(4);
+            result!.Value.Item1.Span[0].Should().Be(1);
 
-            result.Value.Item2.Length.Should().Be(6);
-            result.Value.Item2.Span[0].Should().Be(5);
+            result!.Value.Item2.Length.Should().Be(6);
+            result!.Value.Item2.Span[0].Should().Be(5);
         }
 
         [Fact]
@@ -55,11 +55,11 @@ namespace Honeycomb.Core.Tests.PrimitiveParserTests {
 
             result.Should().NotBeNull();
 
-            result.Value.Item1.Length.Should().Be(8);
-            result.Value.Item1.Span[0].Should().Be(1);
+            result!.Value.Item1.Length.Should().Be(8);
+            result!.Value.Item1.Span[0].Should().Be(1);
 
-            result.Value.Item2.Length.Should().Be(2);
-            result.Value.Item2.Span[0].Should().Be(9);
+            result!.Value.Item2.Length.Should().Be(2);
+            result!.Value.Item2.Span[0].Should().Be(9);
         }
 
         [Fact]
@@ -68,7 +68,7 @@ namespace Honeycomb.Core.Tests.PrimitiveParserTests {
 
             result.Should().NotBeNull();
 
-            var actual = BitConverter.GetBytes(result.Value.Item1);
+            var actual = BitConverter.GetBytes(result!.Value.Item1);
 
             actual[0].Should().Be(1);
             actual[1].Should().Be(2);
@@ -86,7 +86,7 @@ namespace Honeycomb.Core.Tests.PrimitiveParserTests {
 
             result.Should().NotBeNull();
 
-            var actual = BitConverter.GetBytes(result.Value.Item1);
+            var actual = BitConverter.GetBytes(result!.Value.Item1);
 
             actual[0].Should().Be(8);
             actual[1].Should().Be(7);

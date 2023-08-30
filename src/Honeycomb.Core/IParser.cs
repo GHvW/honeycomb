@@ -47,8 +47,8 @@ namespace Honeycomb.Core {
 
         public static IParser<IReadOnlyCollection<A>> Repeat<A>(
             this IParser<A> @this, 
-            int count
+            int times 
         ) =>
-            new Repeat<A>(@this, count);
+            new Repeat<A>(@this, times);
     }
 }
