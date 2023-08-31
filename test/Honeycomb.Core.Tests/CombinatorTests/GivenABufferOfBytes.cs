@@ -83,7 +83,7 @@ namespace Honeycomb.Core.Tests.CombinatorTests {
                     .SelectMany<byte, byte>(it => it == 100 ? new Succeed<byte>(it) : new Fail<byte>());
 
             var result = 
-                firstFail.Or(new Octet()).Parse(this.buffer);;
+                firstFail.Or(new Octet()).Parse(this.buffer);
 
             result.Should().NotBeNull();
 
