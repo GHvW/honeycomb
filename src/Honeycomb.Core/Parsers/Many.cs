@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
-
 
 namespace Honeycomb.Core.Parsers {
 
-    public class Many<A> : IParser<ImmutableList<A>> {
+    public class Many<A> : IParser<IReadOnlyCollection<A>> {
 
         private readonly IParser<A> parser;
 
@@ -13,12 +11,20 @@ namespace Honeycomb.Core.Parsers {
             this.parser = parser;
         }
 
-        public (ImmutableList<A>, ArraySegment<byte>)? Parse(ArraySegment<byte> input) {
-            return (from item in this.parser
-                    from rest in new Many<A>(this.parser)
-                    select rest.Add(item))
-                   .Or(new Succeed<ImmutableList<A>>(ImmutableList.Create<A>()))
-                   .Parse(input);
+        public (IReadOnlyCollection<A>, ReadOnlyMemory<byte>)? Parse(
+            ReadOnlyMemory<byte> input
+        ) {
+            var result = new List<A>();
+            var rest = input;
+            var parsed = this.parser.Parse(rest);
+            while (parsed is not null) {
+                var (item, leftover) = parsed.Value;
+                result.Add(item);
+                rest = leftover;
+                parsed = this.parser.Parse(rest);
+            }
+
+            return (result, rest);
         }
     }
 }

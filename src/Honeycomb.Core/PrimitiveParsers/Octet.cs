@@ -8,9 +8,11 @@ namespace Honeycomb.Core.PrimitiveParsers {
 
     public class Octet : IParser<byte> {
 
-        public (byte, ArraySegment<byte>)? Parse(ArraySegment<byte> input) {
+        public (byte, ReadOnlyMemory<byte>)? Parse(
+            ReadOnlyMemory<byte> input
+        ) {
             try {
-                return (input[0], input.Slice(1));
+                return (input.Span[0], input.Slice(1));
             } catch {
                 return null;
             }

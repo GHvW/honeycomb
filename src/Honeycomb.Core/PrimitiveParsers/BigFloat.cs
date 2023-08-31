@@ -9,8 +9,10 @@ namespace Honeycomb.Core.PrimitiveParsers;
 
 public class BigFloat : IParser<float> {
 
-    public (float, ArraySegment<byte>)? Parse(ArraySegment<byte> input) =>
+    public (float, ReadOnlyMemory<byte>)? Parse(
+        ReadOnlyMemory<byte> input
+    ) =>
         new IntBytes()
-            .Select(it => BinaryPrimitives.ReadSingleBigEndian(it))
+            .Select(it => BinaryPrimitives.ReadSingleBigEndian(it.Span))
             .Parse(input);
 }

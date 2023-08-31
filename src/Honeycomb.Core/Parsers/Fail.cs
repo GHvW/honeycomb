@@ -4,6 +4,9 @@ namespace Honeycomb.Core.Parsers {
 
     public class Fail<A> : IParser<A> {
 
-        public (A, ArraySegment<byte>)? Parse(ArraySegment<byte> input) => null;
+        public (A, ReadOnlyMemory<byte>)? Parse(
+            ReadOnlyMemory<byte> input
+        ) => 
+            null;
     }
 }

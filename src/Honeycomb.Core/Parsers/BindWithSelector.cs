@@ -18,8 +18,8 @@ namespace Honeycomb.Core.Parsers {
             this.fn = fn;
         }
 
-        public (C, ArraySegment<byte>)? Parse(
-            ArraySegment<byte> input
+        public (C, ReadOnlyMemory<byte>)? Parse(
+            ReadOnlyMemory<byte> input
         ) =>
             this.parser.Parse(input) switch {
                 null => null,
