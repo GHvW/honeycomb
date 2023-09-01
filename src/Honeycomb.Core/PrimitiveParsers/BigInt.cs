@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Buffers.Binary;
-using System.Collections.Generic;
 
 namespace Honeycomb.Core.PrimitiveParsers {
 
