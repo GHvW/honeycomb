@@ -12,9 +12,10 @@ namespace Honeycomb.Core.Parsers {
             this.second = second;
         }
 
-        public (A, ReadOnlyMemory<byte>)? Parse(
-            ReadOnlyMemory<byte> input
+        public ParseResult<A>? Parse(
+            int currentIndex,
+            ReadOnlySpan<byte> input
         ) =>
-            first.Parse(input) ?? second.Parse(input);
+            first.Parse(currentIndex, input) ?? second.Parse(currentIndex, input);
     }
 }

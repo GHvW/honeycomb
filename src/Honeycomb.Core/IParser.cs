@@ -4,9 +4,11 @@ using Honeycomb.Core.Parsers;
 
 namespace Honeycomb.Core {
 
+    public readonly record struct ParseResult<A>(A Item, int CurrentIndex);
+
     public interface IParser<A> {
 
-        public (A, ReadOnlyMemory<byte>)? Parse(ReadOnlyMemory<byte> input);
+        public ParseResult<A>? Parse(int currentIndex, ReadOnlySpan<byte> input);
     }
 }
 

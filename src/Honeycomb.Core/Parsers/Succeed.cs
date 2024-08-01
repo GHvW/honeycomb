@@ -10,9 +10,10 @@ namespace Honeycomb.Core.Parsers {
             this.data = data;
         }
 
-        public (A, ReadOnlyMemory<byte>)? Parse(
-            ReadOnlyMemory<byte> input
+        public ParseResult<A>? Parse(
+            int currentIndex,
+            ReadOnlySpan<byte> input
         ) => 
-            (this.data, input);
+            new ParseResult<A>(this.data, currentIndex);
     }
 }
