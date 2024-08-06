@@ -9,11 +9,17 @@ namespace Honeycomb.Core.PrimitiveParsers {
 
     public class BigShort : IParser<short> {
 
-        public (short, ReadOnlyMemory<byte>)? Parse(
-            ReadOnlyMemory<byte> input
-        ) =>
-            new ShortBytes()
-                .Select(bytes => BinaryPrimitives.ReadInt16BigEndian(bytes.Span)) // need surrounding lambda to get implicit conversion
-                .Parse(input);
+        public ParseResult<short>? Parse(
+            int currentIndex,
+            ReadOnlySpan<byte> input
+        ) {
+            try {
+                return new ParseResult<short>(
+                    BinaryPrimitives.ReadInt16BigEndian(input.Slice(currentIndex, 2)),
+                    currentIndex + 2);
+            } catch {
+                return null;
+            }
+        }
     }
 }

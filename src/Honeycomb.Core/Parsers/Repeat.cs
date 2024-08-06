@@ -16,25 +16,26 @@ namespace Honeycomb.Core.Parsers {
             this.times = times;
         }
 
-        public (IReadOnlyCollection<A>, ReadOnlyMemory<byte>)? Parse(
-            ReadOnlyMemory<byte> input
+        public ParseResult<IReadOnlyCollection<A>>? Parse(
+            int currentIndex,
+            ReadOnlySpan<byte> input
         ) {
             var data = new List<A>(this.times);
-            var bytes = input;
+            var bytesIndex = currentIndex;
 
             foreach (var _ in Enumerable.Range(0, this.times)) {
-                var result = this.parser.Parse(bytes);
+                var result = this.parser.Parse(bytesIndex, input);
                 if (result == null) {
                     return null;
                 }
 
-                var (item, rest) = result.Value;
+                var (item, restIndex) = result.Value;
 
                 data.Add(item);
-                bytes = rest;
+                bytesIndex = restIndex;
             }
 
-            return (data, bytes);
+            return new ParseResult<IReadOnlyCollection<A>>(data, bytesIndex);
         }
     }
 }

@@ -1,19 +1,21 @@
 ﻿using System;
 using System.Buffers.Binary;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Honeycomb.Core.PrimitiveParsers {
 
     public class BigDouble : IParser<double> {
 
-        public (double, ReadOnlyMemory<byte>)? Parse(
-            ReadOnlyMemory<byte> input
-        ) =>
-            new DoubleBytes()
-                .Select(bytes => BinaryPrimitives.ReadDoubleBigEndian(bytes.Span)) // have to have the lambda to get implicit conversion
-                .Parse(input);
+        public ParseResult<double>? Parse(
+            int currentIndex,
+            ReadOnlySpan<byte> input
+        ) {
+            try {
+                return new ParseResult<double>(
+                    BinaryPrimitives.ReadDoubleBigEndian(input.Slice(currentIndex, 8)),
+                    currentIndex + 8);
+            } catch {
+                return null;
+            }
+        }
     }
 }

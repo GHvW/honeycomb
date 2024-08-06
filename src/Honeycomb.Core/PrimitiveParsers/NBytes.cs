@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Honeycomb.Core.PrimitiveParsers;
 
@@ -14,11 +10,15 @@ public class NBytes : IParser<ReadOnlyMemory<byte>> {
         this.number = number;
     }
 
-    public (ReadOnlyMemory<byte>, ReadOnlyMemory<byte>)? Parse(
-        ReadOnlyMemory<byte> input
+    public ParseResult<ReadOnlyMemory<byte>>? Parse(
+        int currentIndex,
+        ReadOnlySpan<byte> input
     ) {
         try {
-            return (input.Slice(0, this.number), input.Slice(this.number));
+            // TODO - is this the best way?
+            return new ParseResult<ReadOnlyMemory<byte>>(
+                new ReadOnlyMemory<byte>(input.Slice(currentIndex, this.number).ToArray()), 
+                currentIndex + this.number);
         } catch {
             return null;
         }

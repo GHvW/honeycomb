@@ -12,12 +12,13 @@ namespace Honeycomb.Core.Parsers {
             this.fn = fn;
         }
 
-        public (B, ReadOnlyMemory<byte>)? Parse(
-            ReadOnlyMemory<byte> input
+        public ParseResult<B>? Parse(
+            int currentIndex,
+            ReadOnlySpan<byte> input
         ) =>
-            this.parser.Parse(input) switch {
+            this.parser.Parse(currentIndex, input) switch {
                 null => null,
-                (var data, var rest) => (this.fn(data), rest)
+                (var data, var nextIndex) => new ParseResult<B>(this.fn(data), nextIndex)
             };
     }
 }

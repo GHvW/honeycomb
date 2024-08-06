@@ -1,19 +1,21 @@
 ﻿using System;
 using System.Buffers.Binary;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Honeycomb.Core.PrimitiveParsers {
 
     public class LittleShort : IParser<short> {
 
-        public (short, ReadOnlyMemory<byte>)? Parse(
-            ReadOnlyMemory<byte> input
-        ) =>
-            new ShortBytes()
-                .Select(bytes => BinaryPrimitives.ReadInt16LittleEndian(bytes.Span)) // need surrounding lambda to get implicit conversion
-                .Parse(input);
+        public ParseResult<short>? Parse(
+            int currentIndex,
+            ReadOnlySpan<byte> input
+        ) {
+            try {
+                return new ParseResult<short>(
+                    BinaryPrimitives.ReadInt16LittleEndian(input.Slice(currentIndex, 2)),
+                    currentIndex + 2);
+            } catch {
+                return null;
+            }
+        }
     }
 }
