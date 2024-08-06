@@ -5,10 +5,16 @@ namespace Honeycomb.Core.PrimitiveParsers;
 
 public class BigFloat : IParser<float> {
 
-    public (float, ReadOnlyMemory<byte>)? Parse(
-        ReadOnlyMemory<byte> input
-    ) =>
-        new IntBytes()
-            .Select(it => BinaryPrimitives.ReadSingleBigEndian(it.Span))
-            .Parse(input);
+    public ParseResult<float>? Parse(
+        int currentIndex,
+        ReadOnlySpan<byte> input
+    ) {
+        try {
+            return new ParseResult<float>(
+                BinaryPrimitives.ReadSingleBigEndian(input.Slice(currentIndex, 4)),
+                currentIndex + 4);
+        } catch {
+            return null;
+        }
+    }
 }

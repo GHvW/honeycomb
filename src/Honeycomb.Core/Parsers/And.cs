@@ -12,14 +12,15 @@ namespace Honeycomb.Core.Parsers {
             this.second = second;
         }
 
-        public ((A, B), ReadOnlyMemory<byte>)? Parse(
-            ReadOnlyMemory<byte> input
+        public ParseResult<(A, B)>? Parse(
+            int currentIndex,
+            ReadOnlySpan<byte> input
         ) =>
-            this.first.Parse(input) switch {
+            this.first.Parse(currentIndex, input) switch {
                 null => null,
-                (var data, var rest) => this.second.Parse(rest) switch {
+                (var data, var nextIndex) => this.second.Parse(nextIndex, input) switch {
                     null => null,
-                    (var data2, var leftover) => ((data, data2), leftover)
+                    (var data2, var lastIndex) => new ParseResult<(A, B)>((data, data2), lastIndex)
                 }
             };
     }
@@ -40,16 +41,17 @@ namespace Honeycomb.Core.Parsers {
             this.third = third;
         }
 
-        public ((A, B, C), ReadOnlyMemory<byte>)? Parse(
-            ReadOnlyMemory<byte> input
+        public ParseResult<(A, B, C)>? Parse(
+            int currentIndex,
+            ReadOnlySpan<byte> input
         ) =>
-            this.first.Parse(input) switch {
+            this.first.Parse(currentIndex, input) switch {
                 null => null,
-                (var data, var rest) => this.second.Parse(rest) switch {
+                (var data, var nextIndex) => this.second.Parse(nextIndex, input) switch {
                     null => null,
-                    (var data2, var leftover) => this.third.Parse(leftover) switch {
+                    (var data2, var nextIndex2) => this.third.Parse(nextIndex2, input) switch {
                         null => null,
-                        (var data3, var leftover2) => ((data, data2, data3), leftover2)
+                        (var data3, var nextIndex3) => new ParseResult<(A, B, C)>((data, data2, data3), nextIndex3)
                     }
                 }
             };
@@ -75,18 +77,19 @@ namespace Honeycomb.Core.Parsers {
             this.fourth = fourth;
         }
 
-        public ((A, B, C, D), ReadOnlyMemory<byte>)? Parse(
-            ReadOnlyMemory<byte> input
+        public ParseResult<(A, B, C, D)>? Parse(
+            int currentIndex,
+            ReadOnlySpan<byte> input
         ) =>
-            this.first.Parse(input) switch {
+            this.first.Parse(currentIndex, input) switch {
                 null => null,
-                (var data, var rest) => this.second.Parse(rest) switch {
+                (var data, var nextIndex) => this.second.Parse(nextIndex, input) switch {
                     null => null,
-                    (var data2, var leftover) => this.third.Parse(leftover) switch {
+                    (var data2, var nextIndex2) => this.third.Parse(nextIndex2, input) switch {
                         null => null,
-                        (var data3, var leftover2) => this.fourth.Parse(leftover2) switch {
+                        (var data3, var nextIndex3) => this.fourth.Parse(nextIndex3, input) switch {
                             null => null,
-                            (var data4, var leftover3) => ((data, data2, data3, data4), leftover3)
+                            (var data4, var lastIndex) => new ParseResult<(A, B, C, D)>((data, data2, data3, data4), lastIndex)
                         }
                     }
                 }

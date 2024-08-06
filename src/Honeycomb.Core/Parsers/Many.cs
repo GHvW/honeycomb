@@ -11,20 +11,21 @@ namespace Honeycomb.Core.Parsers {
             this.parser = parser;
         }
 
-        public (IReadOnlyCollection<A>, ReadOnlyMemory<byte>)? Parse(
-            ReadOnlyMemory<byte> input
+        public ParseResult<IReadOnlyCollection<A>>? Parse(
+            int currentIndex,
+            ReadOnlySpan<byte> input
         ) {
             var result = new List<A>();
-            var rest = input;
-            var parsed = this.parser.Parse(rest);
+            var restIndex = currentIndex;
+            var parsed = this.parser.Parse(restIndex, input);
             while (parsed is not null) {
-                var (item, leftover) = parsed.Value;
+                var (item, leftoverIndex) = parsed.Value;
                 result.Add(item);
-                rest = leftover;
-                parsed = this.parser.Parse(rest);
+                restIndex = leftoverIndex;
+                parsed = this.parser.Parse(restIndex, input);
             }
 
-            return (result, rest);
+            return new ParseResult<IReadOnlyCollection<A>>(result, restIndex);
         }
     }
 }

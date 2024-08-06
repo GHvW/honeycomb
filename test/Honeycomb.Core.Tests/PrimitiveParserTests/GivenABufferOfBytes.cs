@@ -3,10 +3,6 @@
 using Honeycomb.Core.PrimitiveParsers;
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using Xunit;
 
@@ -18,57 +14,29 @@ namespace Honeycomb.Core.Tests.PrimitiveParserTests {
 
         public GivenABufferOfBytes() {
             var bytes = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
-            this.buffer = new ArraySegment<byte>(bytes);
+            this.buffer = bytes;
         }
 
         [Fact]
         public void WhenParsingASingleByte() {
 
-            var result = new Octet().Parse(this.buffer);
+            var result = new Octet().Parse(0, this.buffer);
 
             result.Should().NotBeNull();
 
-            result!.Value.Item1.Should().Be(1);
+            result!.Value.Item.Should().Be(1);
 
-            result!.Value.Item2.Length.Should().Be(9);
-            result!.Value.Item2.Span[0].Should().Be(2);
+            result!.Value.CurrentIndex.Should().Be(1);
         }
 
-        [Fact]
-        public void WhenParsingBytesToFormAnInt32() {
-
-            var result = new IntBytes().Parse(this.buffer);
-
-            result.Should().NotBeNull();
-
-            result!.Value.Item1.Length.Should().Be(4);
-            result!.Value.Item1.Span[0].Should().Be(1);
-
-            result!.Value.Item2.Length.Should().Be(6);
-            result!.Value.Item2.Span[0].Should().Be(5);
-        }
-
-        [Fact]
-        public void WhenParsingBytesToFormADouble() {
-
-            var result = new DoubleBytes().Parse(this.buffer);
-
-            result.Should().NotBeNull();
-
-            result!.Value.Item1.Length.Should().Be(8);
-            result!.Value.Item1.Span[0].Should().Be(1);
-
-            result!.Value.Item2.Length.Should().Be(2);
-            result!.Value.Item2.Span[0].Should().Be(9);
-        }
 
         [Fact]
         public void WhenParsingToALittleEndianDouble() {
-            var result = new LittleDouble().Parse(this.buffer);
+            var result = new LittleDouble().Parse(0, this.buffer);
 
             result.Should().NotBeNull();
 
-            var actual = BitConverter.GetBytes(result!.Value.Item1);
+            var actual = BitConverter.GetBytes(result!.Value.Item);
 
             actual[0].Should().Be(1);
             actual[1].Should().Be(2);
@@ -80,13 +48,14 @@ namespace Honeycomb.Core.Tests.PrimitiveParserTests {
             actual[7].Should().Be(8);
         }
 
+
         [Fact]
         public void WhenParsingToABigEndianDouble() {
-            var result = new BigDouble().Parse(this.buffer);
+            var result = new BigDouble().Parse(0, this.buffer);
 
             result.Should().NotBeNull();
 
-            var actual = BitConverter.GetBytes(result!.Value.Item1);
+            var actual = BitConverter.GetBytes(result!.Value.Item);
 
             actual[0].Should().Be(8);
             actual[1].Should().Be(7);
