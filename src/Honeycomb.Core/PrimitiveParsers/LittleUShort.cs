@@ -3,15 +3,15 @@ using System.Buffers.Binary;
 
 namespace Honeycomb.Core.PrimitiveParsers;
 
-public class BigShort : IParser<short> {
+public class LittleUShort : IParser<ushort> {
 
-    public ParseResult<short>? Parse(
+    public ParseResult<ushort>? Parse(
         int currentIndex,
         ReadOnlySpan<byte> input
     ) {
         try {
-            return new ParseResult<short>(
-                BinaryPrimitives.ReadInt16BigEndian(input.Slice(currentIndex, 2)),
+            return new ParseResult<ushort>(
+                BinaryPrimitives.ReadUInt16LittleEndian(input.Slice(currentIndex, 2)),
                 currentIndex + 2);
         } catch {
             return null;
