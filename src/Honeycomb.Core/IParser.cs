@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Reflection.Metadata.Ecma335;
+
 using Honeycomb.Core.Parsers;
 
 namespace Honeycomb.Core {
@@ -106,5 +108,11 @@ namespace Honeycomb.Core {
             int times 
         ) =>
             new Repeat<A>(@this, times);
+
+        public static IParser<A> Where<A>(
+            this IParser<A> @this,
+            Predicate<A> predicate
+        ) =>
+            new Where<A>(predicate, @this);
     }
 }
