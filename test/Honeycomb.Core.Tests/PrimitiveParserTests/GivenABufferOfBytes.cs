@@ -66,5 +66,27 @@ namespace Honeycomb.Core.Tests.PrimitiveParserTests {
             actual[6].Should().Be(2);
             actual[7].Should().Be(1);
         }
+
+        [Fact]
+        public void WhenParsingABigEndianLong() {
+            var result = new BigLong().Parse(0, this.buffer);
+
+            result.Should().NotBeNull();
+
+            result!.Value.Item.Should().Be(0x0102030405060708);
+
+            result!.Value.CurrentIndex.Should().Be(8);
+        }
+
+        [Fact]
+        public void WhenParsingALittleEndianLong() {
+            var result = new LittleLong().Parse(0, this.buffer);
+
+            result.Should().NotBeNull();
+
+            result!.Value.Item.Should().Be(0x0807060504030201);
+
+            result!.Value.CurrentIndex.Should().Be(8);
+        }
     }
 }
